@@ -15,7 +15,10 @@
 //     return view('welcome');
 // });
 
+// use Illuminate\Routing\Route;
+use vendor\laravel\framework\src\Illuminate\Routing;
 use Illuminate\Support\Facades\Auth;
 
 Auth::routes();
-Route::get('/', 'ArticleController@index');
+Route::get('/', 'ArticleController@index')->name("articles.index");
+Route::resource('/articles', 'ArticleController')->except(["index"])->middleware("auth");
