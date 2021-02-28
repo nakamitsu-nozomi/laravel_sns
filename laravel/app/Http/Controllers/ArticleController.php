@@ -9,6 +9,10 @@ use App\Http\Requests\ArticleRequest as RequestsArticleRequest;
 
 class ArticleController extends Controller
 {
+    public function __construct()
+    {
+        $this->authorizeResource(Article::class, "article");
+    }
     public function index()
     {
 
@@ -40,5 +44,9 @@ class ArticleController extends Controller
     {
         $article->delete();
         return redirect()->route("articles.index");
+    }
+    public function show(Article $article)
+    {
+        return view("articles.show", ["article" => $article]);
     }
 }
