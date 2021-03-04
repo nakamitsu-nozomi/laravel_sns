@@ -11,7 +11,8 @@ class UserController extends Controller
     public function show(String $name)
     {
         $user = User::where("name", $name)->first();
-        return view("users.show", ["user" => $user]);
+        $articles = $user->articles->sortByDesc("created_at");
+        return view("users.show", ["user" => $user, "articles" => $articles]);
     }
     // followメソッド
     public function follow(Request $request, String $name)
