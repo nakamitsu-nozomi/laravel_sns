@@ -54,6 +54,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany("App\Article", "likes")->withTimestamps();
     }
+    // フォロワーのアソシエーション
     public function followers(): BelongsToMany
     {
         return $this->belongsToMany("App\User", "follows", "followee_id", "follower_id")->withTimestamps();
@@ -65,6 +66,7 @@ class User extends Authenticatable
             ? (bool)$this->followers->where("id", $user->id)->count()
             : false;
     }
+    // フォローのアソシエーション
     public function followings(): BelongsToMany
     {
         return $this->belongsToMany('App\User', 'follows', 'follower_id', 'followee_id')->withTimestamps();
