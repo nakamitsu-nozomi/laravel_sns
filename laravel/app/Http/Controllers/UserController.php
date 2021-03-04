@@ -14,6 +14,12 @@ class UserController extends Controller
         $articles = $user->articles->sortByDesc("created_at");
         return view("users.show", ["user" => $user, "articles" => $articles]);
     }
+    public function likes(String $name)
+    {
+        $user = User::where("name", $name)->first();
+        $articles = $user->likes->sortByDesc("created_at");
+        return view("users.likes", ["user" => $user, "articles" => $articles]);
+    }
     // followメソッド
     public function follow(Request $request, String $name)
     {
