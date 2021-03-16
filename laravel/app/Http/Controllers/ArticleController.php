@@ -14,12 +14,14 @@ class ArticleController extends Controller
     {
         $this->authorizeResource(Article::class, "article");
     }
-    public function index()
+    public function index(Request $request)
     {
-
-        $articles = Article::all()->sortByDesc("created_at")
-            ->load(["user", "likes", "tags"]);
-        return view("articles.index", ["articles" => $articles]);
+        $keyword = $request->input("keyword");
+        $query = Article::query();
+        $articles = Article::whereHas('tags', function ($query) use ($keyword) {
+            $query->where('name', 'LIKE', "%{$keyword}%");
+        })->get();
+        return view("articles.index", ["articles" => $articles, "keyword" => $keyword]);
     }
     public function create()
     {
