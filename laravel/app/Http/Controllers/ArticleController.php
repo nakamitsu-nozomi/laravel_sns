@@ -18,13 +18,9 @@ class ArticleController extends Controller
     {
         $keyword = $request->input("keyword");
         $query = Article::query();
-        if (!empty($keyword)) {
-            $query->where('title', 'LIKE', "%{$keyword}%")
-                ->orWhere('body', 'LIKE', "%{$keyword}%");
-        }
-        $articles = $query->get();
-        // $articles = Article::all()->sortByDesc("created_at")
-        //     ->load(["user", "likes", "tags"]);
+        $articles = Article::whereHas('tags', function ($query) use ($keyword) {
+            $query->where('name', 'LIKE', "%{$keyword}%");
+        })->get();
         return view("articles.index", ["articles" => $articles, "keyword" => $keyword]);
     }
     public function create()
