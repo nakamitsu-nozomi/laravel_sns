@@ -30,6 +30,7 @@ class ArticleController extends Controller
         });
         return view("articles.create", ["allTagNames" => $allTagNames]);
     }
+
     public function store(RequestsArticleRequest $request, Article $article)
     {
         $article->fill($request->all());
